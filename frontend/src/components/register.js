@@ -10,7 +10,7 @@ function Register() {
 
     try {
       const response = await fetch(
-        "http://3.88.100.16:5000/api/auth/register",
+        "http://3.88.100.16:5001/api/auth/register",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
