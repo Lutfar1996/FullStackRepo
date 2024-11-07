@@ -1,8 +1,7 @@
 pipeline{
     agent any
-    environment {
-        // Set Node.js environment for the frontend
-        NODE_HOME = tool name: 'NodeJS', type: 'NodeJS'
+     tools{
+        nodejs 'node18'
     }
     stages {
         stage('clean workspace'){
