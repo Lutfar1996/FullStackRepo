@@ -15,12 +15,14 @@ pipeline{
             }
         }
         stage('Install Dependencies') {
-           script {
+            steps {
+                script {
                     // Ensure you're in the directory where package.json exists
-                    dir('frontend') {  // Replace with the correct directory path
+                    dir('your-react-app-directory') {  // Replace with the correct directory path
                         sh 'npm install'
                     }
                 }
+            }
         }
         stage("Docker Build & Push"){
             steps{
