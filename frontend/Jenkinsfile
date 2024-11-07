@@ -15,9 +15,12 @@ pipeline{
             }
         }
         stage('Install Dependencies') {
-            steps {
-                sh "npm install"
-            }
+           script {
+                    // Ensure you're in the directory where package.json exists
+                    dir('frontend') {  // Replace with the correct directory path
+                        sh 'npm install'
+                    }
+                }
         }
         stage("Docker Build & Push"){
             steps{
