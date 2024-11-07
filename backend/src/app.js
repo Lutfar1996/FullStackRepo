@@ -8,7 +8,11 @@ const authRoutes = require("./routes/auth");
 const app = express();
 
 // Enable CORS
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://3.88.100.16:5000", // Frontend running on port 5000 (React app)
+  })
+);
 
 app.use(bodyParser.json()); // Parse JSON request bodies
 app.use("/api/auth", authRoutes); // Register authentication routes
