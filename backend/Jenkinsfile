@@ -1,42 +1,43 @@
-pipeline{
+pipeline {
     agent any
-    environment {
-        // Set Node.js environment for the frontend
-        NODE_HOME = tool name: 'NodeJS', type: 'NodeJS'
-        DB_HOST = credentials('DB_HOST')  // Fetch from Jenkins Credentials
-        DB_USER = credentials('DB_USER')
-        DB_PASSWORD = credentials('DB_PASSWORD')
-        DB_NAME = credentials('DB_NAME')
-        DB_PORT = credentials('DB_PORT')
+    tools{
+        nodejs 'node18'
     }
     stages {
-        stage('clean workspace'){
-            steps{
+        stage('clean workspace') {
+            steps {
                 cleanWs()
             }
         }
-        stage('Checkout from Git'){
-            steps{
+        stage('Checkout from Git') {
+            steps {
                 git branch: 'main', url: 'https://github.com/Lutfar1996/FullStackRepo.git'
             }
         }
         stage('Install Dependencies') {
             steps {
-                sh "npm install"
-            }
-        }
-        stage("Docker Build & Push"){
-            steps{
-                script{
-                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
-                       sh "docker build -t fullStack ."
-                       sh "docker tag fullStack lutfar1996/fullStack:latest "
-                       sh "docker push lutfar1996/fullStack:latest "
-                       sh "docker "
+                script {
+                    // Ensure you're in the directory where package.json exists
+                    dir('backend') {  // Replace with the correct directory path
+                        sh 'npm install'
                     }
                 }
             }
         }
-       
+        stage('Docker Build & Push') {
+            steps {
+                script {
+                    // Provide Docker registry credentials and ensure it's wrapped in a block
+                    withDockerRegistry([credentialsId: 'docker', url: 'https://index.docker.io/v1/']) {
+                        dir('backend') {
+                            // Build Docker image, tag it, and push to Docker Hub
+                            sh "docker build -t loginappbackend ."
+                            sh "docker tag loginappbackend lutfar1996/loginappbackend:latest"
+                            sh "docker push lutfar1996/loginappbackend:latest"
+                        }
+                    }
+                }
+            }
+        }
     }
 }
