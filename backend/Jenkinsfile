@@ -1,0 +1,37 @@
+pipeline{
+    agent any
+    environment {
+        // Set Node.js environment for the frontend
+        NODE_HOME = tool name: 'NodeJS', type: 'NodeJS'
+    }
+    stages {
+        stage('clean workspace'){
+            steps{
+                cleanWs()
+            }
+        }
+        stage('Checkout from Git'){
+            steps{
+                git branch: 'main', url: 'https://github.com/Lutfar1996/FullStackRepo.git'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh "npm install"
+            }
+        }
+        stage("Docker Build & Push"){
+            steps{
+                script{
+                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
+                       sh "docker build -t fullStack ."
+                       sh "docker tag fullStack lutfar1996/fullStack:latest "
+                       sh "docker push lutfar1996/fullStack:latest "
+                       sh "docker "
+                    }
+                }
+            }
+        }
+       
+    }
+}
