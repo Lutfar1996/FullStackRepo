@@ -27,7 +27,8 @@ pipeline{
         stage("Docker Build & Push"){
             steps{
                 script{
-                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
+                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker')
+                   dir('frontend'){   
                        sh "docker build -t loginapp ."
                        sh "docker tag loginapp lutfar1996/loginapp:latest "
                        sh "docker push lutfar1996/loginapp:latest "
