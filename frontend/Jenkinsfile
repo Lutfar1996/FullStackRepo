@@ -18,7 +18,7 @@ pipeline{
             steps {
                 script {
                     // Ensure you're in the directory where package.json exists
-                    dir('your-react-app-directory') {  // Replace with the correct directory path
+                    dir('frontend') {  // Replace with the correct directory path
                         sh 'npm install'
                     }
                 }
