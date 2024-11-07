@@ -28,9 +28,9 @@ pipeline{
             steps{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
-                       sh "docker build -t fullStackfront ."
-                       sh "docker tag fullStackfront lutfar1996/fullStackfront:latest "
-                       sh "docker push lutfar1996/fullStackfront:latest "
+                       sh "docker build -t loginapp ."
+                       sh "docker tag loginapp lutfar1996/loginapp:latest "
+                       sh "docker push lutfar1996/loginapp:latest "
                        sh "docker "
                     }
                 }
