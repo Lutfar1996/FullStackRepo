@@ -1,8 +1,8 @@
 pipeline{
     agent any
-     tools{
-        nodejs 'node18'
-    }
+    //  tools{
+    //     nodejs 'node18'
+    // }
     stages {
         stage('clean workspace'){
             steps{
