@@ -1,8 +1,10 @@
 pipeline {
     agent any
-    // tools{
-    //     nodejs 'node18'
-    // }
+    environment {
+        AWS_REGION = 'ap-northeast-1'
+        CLUSTER_NAME = 'EKS_CLOUD'
+        FRONTEND_IMAGE = "lutfar1996/frontend:${BUILD_NUMBER}"  // Set the frontend image tag dynamically
+    }
     stages {
         stage('clean workspace') {
             steps {
@@ -18,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Ensure you're in the directory where package.json exists
-                    dir('frontend') {  // Replace with the correct directory path
+                    dir('frontend') {
                         sh 'npm install'
                     }
                 }
@@ -31,11 +33,30 @@ pipeline {
                     withDockerRegistry([credentialsId: 'docker', url: 'https://index.docker.io/v1/']) {
                         dir('frontend') {
                             // Build Docker image, tag it using Jenkins build number, and push to Docker Hub
-                            def imageTag = "lutfar1996/frontend:${BUILD_NUMBER}"  // Tag the image with the build number
-                            sh "docker build -t ${imageTag} ."
-                            sh "docker push ${imageTag}"  // Push the tagged image
+                            sh "docker build -t ${FRONTEND_IMAGE} ."
+                            sh "docker push ${FRONTEND_IMAGE}"  // Push the tagged image
                         }
                     }
+                }
+            }
+        }
+        stage('Update Kubeconfig for EKS') {
+            steps {
+                script {
+                    withAWS(credentials: 'aws-credentials') {
+                        // Update the kubeconfig to point to the correct EKS cluster
+                        sh "aws eks --region ${AWS_REGION} update-kubeconfig --name ${CLUSTER_NAME}"
+                    }
+                }
+            }
+        }
+        stage('Deploy to EKS') {
+            steps {
+                script {
+                    // Replace image tag in the frontend manifest file with the Jenkins build number
+                    sh "sed -i 's|lutfar1996/frontend:latest|${FRONTEND_IMAGE}|g' frontend-deployment.yaml"
+                    // Apply the updated deployment YAML file to the EKS cluster
+                    sh "kubectl apply -f frontend-deployment.yaml"
                 }
             }
         }

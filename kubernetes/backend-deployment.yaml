@@ -14,21 +14,28 @@ spec:
     spec:
       containers:
         - name: backend
-          image: <your-dockerhub-username>/backend:latest
+          image: lutfar1996/backend:latest
           ports:
             - containerPort: 5001
           env:
             - name: DB_HOST
-              value: <AWS_RDS_HOSTNAME> # Replace with your AWS RDS endpoint
+              value: terraform-20241107074145480700000001.cpius0u6u7nc.us-east-1.rds.amazonaws.com # AWS RDS endpoint
             - name: DB_USER
-              value: <AWS_RDS_DB_USER> # Replace with your AWS RDS DB username
+              value: pgadmin # Your DB user
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: rds-secrets
-                  key: password
+                  name: rds-secrets # Reference the secret created
+                  key: password # Reference the password key in the secret
             - name: DB_NAME
-              value: <AWS_RDS_DB_NAME> # Replace with your AWS RDS DB name
+              value: pgres # Database name
+            - name: DB_PORT
+              value: "5432" # Default PostgreSQL port
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: rds-secrets # Reference the secret created
+                  key: jwt_secret # Reference the JWT secret key in the secret
 ---
 apiVersion: v1
 kind: Service
