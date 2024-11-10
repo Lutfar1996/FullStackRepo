@@ -1,8 +1,7 @@
 // src/components/Register.js
 import { useState } from "react";
 
-const apiUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:5001"; // default to localhost if undefined
-console.log(apiUrl);
+const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
 function Register() {
   const [email, setEmail] = useState("");
