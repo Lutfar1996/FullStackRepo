@@ -50,6 +50,13 @@ pipeline {
                 }
             }
         }
+        stage('Verify Kubeconfig Access') {
+            steps {
+                script {
+                    sh 'kubectl get nodes'  // Verify kubectl can access the cluster
+                }
+            }
+        }
         stage('Deploy to EKS') {
             steps {
                 script {
@@ -60,5 +67,6 @@ pipeline {
                 }
             }
         }
+       
     }
 }
