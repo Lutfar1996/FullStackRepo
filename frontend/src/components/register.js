@@ -1,6 +1,7 @@
 // src/components/Register.js
 import { useState } from "react";
 const apiUrl = process.env.REACT_APP_BACKEND_URL;
+console.log(apiUrl);
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -8,6 +9,13 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Optionally, check if the email is already in use
+    if (email === "test@example.com") {
+      // Simulated check
+      alert("Email is already registered!");
+      return;
+    }
 
     try {
       const response = await fetch(`${apiUrl}/api/auth/register`, {
@@ -21,16 +29,13 @@ function Register() {
       }
 
       const data = await response.json();
-      console.log(data); // Log the response
-
-      // Optionally, show a success message to the user
+      console.log(data);
       alert(`User registered successfully! ID: ${data.user.id}`);
     } catch (error) {
       console.error("Error during registration:", error);
       alert("An error occurred. Please try again later.");
     }
   };
-
   return (
     <form onSubmit={handleSubmit}>
       <input

@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: lutfar1996/frontend:22
+          image: lutfar1996/frontend:23
           env:
             - name: REACT_APP_BACKEND_URL
-              value: "backend-service:5001" # assuming backend service is on port 8080
+              value: "http://backend-service:5001" # assuming backend service is on port 8080
           ports:
             - containerPort: 5000
 ---
