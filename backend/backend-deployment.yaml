@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: lutfar1996/backend:latest
+          image: lutfar1996/backend:3
           ports:
             - containerPort: 5001
           env:
@@ -23,19 +23,12 @@ spec:
             - name: DB_USER
               value: pgadmin # Your DB user
             - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: rds-secrets # Reference the secret created
-                  key: password # Reference the password key in the secret
+              value: Admin123!
             - name: DB_NAME
               value: pgres # Database name
             - name: DB_PORT
               value: "5432" # Default PostgreSQL port
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: rds-secrets # Reference the secret created
-                  key: jwt_secret # Reference the JWT secret key in the secret
+
 ---
 apiVersion: v1
 kind: Service
