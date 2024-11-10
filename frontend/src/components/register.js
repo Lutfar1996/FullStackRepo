@@ -4,11 +4,6 @@ import { useState } from "react";
 const apiUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:5001"; // default to localhost if undefined
 console.log(apiUrl);
 
-if (!apiUrl) {
-  console.error("Backend URL is not set.");
-  return;
-}
-
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
