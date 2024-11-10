@@ -40,33 +40,33 @@ pipeline {
                 }
             }
         }
-        stage('Update Kubeconfig for EKS') {
-            steps {
-                script {
-                    withAWS(credentials: 'aws-credentials') {
-                        // Update the kubeconfig to point to the correct EKS cluster
-                        sh "aws eks --region ${AWS_REGION} update-kubeconfig --name ${CLUSTER_NAME}"
-                    }
-                }
-            }
-        }
-        stage('Verify Kubeconfig Access') {
-            steps {
-                script {
-                    sh 'kubectl get nodes'  // Verify kubectl can access the cluster
-                }
-            }
-        }
-        stage('Deploy to EKS') {
-            steps {
-                script {
-                    // Replace image tag in the frontend manifest file with the Jenkins build number
-                    sh "sed -i 's|lutfar1996/frontend:latest|${FRONTEND_IMAGE}|g' frontend-deployment.yaml"
-                    // Apply the updated deployment YAML file to the EKS cluster
-                    sh "kubectl apply -f frontend-deployment.yaml"
-                }
-            }
-        }
+        // stage('Update Kubeconfig for EKS') {
+        //     steps {
+        //         script {
+        //             withAWS(credentials: 'aws-credentials') {
+        //                 // Update the kubeconfig to point to the correct EKS cluster
+        //                 sh "aws eks --region ${AWS_REGION} update-kubeconfig --name ${CLUSTER_NAME}"
+        //             }
+        //         }
+        //     }
+        // }
+        // stage('Verify Kubeconfig Access') {
+        //     steps {
+        //         script {
+        //             sh 'kubectl get nodes'  // Verify kubectl can access the cluster
+        //         }
+        //     }
+        // }
+        // stage('Deploy to EKS') {
+        //     steps {
+        //         script {
+        //             // Replace image tag in the frontend manifest file with the Jenkins build number
+        //             sh "sed -i 's|lutfar1996/frontend:latest|${FRONTEND_IMAGE}|g' frontend-deployment.yaml"
+        //             // Apply the updated deployment YAML file to the EKS cluster
+        //             sh "kubectl apply -f frontend-deployment.yaml"
+        //         }
+        //     }
+        // }
        
     }
 }

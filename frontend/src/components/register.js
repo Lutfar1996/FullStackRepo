@@ -1,5 +1,6 @@
 // src/components/Register.js
 import { useState } from "react";
+const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -9,14 +10,11 @@ function Register() {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        "http://backend-service:5001/api/auth/register",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const response = await fetch(`${apiUrl}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
       if (!response.ok) {
         throw new Error("Registration failed");
