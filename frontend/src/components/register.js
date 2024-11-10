@@ -10,7 +10,7 @@ function Register() {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/auth/register`,
+        "http://backend-service:5001/api/auth/register",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
