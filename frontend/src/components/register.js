@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios"; // Import axios
 
 const apiUrl = process.env.REACT_APP_BACKEND_URL;
+console.log("Backend URL:", apiUrl);
 
 function Register() {
   const [email, setEmail] = useState("");

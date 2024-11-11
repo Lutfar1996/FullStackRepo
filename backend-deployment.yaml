@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: lutfar1996/backend:4
+          image: lutfar1996/backend:5
           ports:
             - containerPort: 5001
           env:
