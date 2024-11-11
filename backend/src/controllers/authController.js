@@ -7,7 +7,7 @@ const registerUser = async (req, res) => {
 
   try {
     // Insert the user and catch unique constraint violation
-    const result = await db.query(
+    const result = await pool.query(
       "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
       [email, password]
     );
