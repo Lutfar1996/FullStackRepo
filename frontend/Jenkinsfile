@@ -33,7 +33,9 @@ pipeline {
                     withDockerRegistry([credentialsId: 'docker', url: 'https://index.docker.io/v1/']) {
                         dir('frontend') {
                             // Build Docker image, tag it using Jenkins build number, and push to Docker Hub
-                            sh "docker build -t ${FRONTEND_IMAGE} ."
+                            sh "docker build --build-arg REACT_APP_BACKEND_URL=http://backend-service:5001 -t ${FRONTEND_IMAGE} ."
+                            // docker build --build-arg REACT_APP_BACKEND_URL=http://backend-service:5001 -t lutfar1996/frontend:29 .
+
                             sh "docker push ${FRONTEND_IMAGE}"  // Push the tagged image
                         }
                     }

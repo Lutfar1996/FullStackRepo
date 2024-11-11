@@ -13,8 +13,11 @@ RUN npm install
 # Copy the entire React application code to the container
 COPY . .
 
-# Build the React app for production
-RUN npm run build
+# Accept the REACT_APP_BACKEND_URL as a build argument
+ARG REACT_APP_BACKEND_URL
+
+# Set the environment variable REACT_APP_BACKEND_URL before building the app
+RUN REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL npm run build
 
 # Install the 'serve' package to serve the built React app
 RUN npm install -g serve
