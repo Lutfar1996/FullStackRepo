@@ -19,7 +19,7 @@ spec:
             - containerPort: 5001
           env:
             - name: DB_HOST
-              value: terraform-20241107074145480700000001.cpius0u6u7nc.us-east-1.rds.amazonaws.com # AWS RDS endpoint
+              value: terraform-20241111054449409100000001.cpius0u6u7nc.us-east-1.rds.amazonaws.com # AWS RDS endpoint
             - name: DB_USER
               value: pgadmin # Your DB user
             - name: DB_PASSWORD
