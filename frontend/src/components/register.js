@@ -1,5 +1,5 @@
-// src/components/Register.js
 import { useState } from "react";
+import axios from "axios"; // Import axios
 
 const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -18,24 +18,29 @@ function Register() {
     }
 
     try {
-      const response = await fetch(`${apiUrl}/api/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+      const response = await axios.post(`${apiUrl}/api/auth/register`, {
+        email,
+        password,
       });
 
-      if (!response.ok) {
+      if (response.status === 200) {
+        // Axios automatically checks status code
+        const data = response.data; // Axios parses the response JSON automatically
+        if (data.user && data.user.id) {
+          console.log(data);
+          alert(`User registered successfully! ID: ${data.user.id}`);
+        } else {
+          alert("Unexpected response from the server.");
+        }
+      } else {
         throw new Error("Registration failed");
       }
-
-      const data = await response.json();
-      console.log(data);
-      alert(`User registered successfully! ID: ${data.user.id}`);
     } catch (error) {
       console.error("Error during registration:", error);
-      alert("An error occurred. Please try again later.");
+      alert("Failed to reach backend.");
     }
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <input
