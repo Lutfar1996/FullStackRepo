@@ -1,10 +1,10 @@
 pipeline {
     agent any
-    environment {
-        AWS_REGION = 'ap-northeast-1'
-        CLUSTER_NAME = 'EKS_CLOUD'
-        FRONTEND_IMAGE = "lutfar1996/frontend:${BUILD_NUMBER}"  // Set the frontend image tag dynamically
-    }
+    // environment {
+    //     AWS_REGION = 'ap-northeast-1'
+    //     CLUSTER_NAME = 'EKS_CLOUD'
+    //     FRONTEND_IMAGE = "lutfar1996/frontend:${BUILD_NUMBER}"  // Set the frontend image tag dynamically
+    // }
     stages {
         stage('clean workspace') {
             steps {
